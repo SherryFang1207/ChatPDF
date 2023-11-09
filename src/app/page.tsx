@@ -5,8 +5,8 @@ import { auth } from "@clerk/nextjs";
 import { LogIn } from "lucide-react";
 import Link from "next/link";
 
-export default function Home() {
-  const { userId }: { userId: string | null } = auth();
+export default async function Home() {
+  const { userId }: { userId: string | null } = await auth();
   const isAuth = !!userId;
 
   return (

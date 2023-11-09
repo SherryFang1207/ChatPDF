@@ -24,8 +24,8 @@ export async function uploadToS3(file: File) {
       .on("httpUploadProgress", (evt) => {
         console.log(
           "uploading to s3...",
-          parseInt(((evt.loaded * 100) / evt.total).toString()) + "%"
-        );
+          parseInt(((evt.loaded * 100) / evt.total).toString())
+        ) + "%";
       })
       .promise();
     await upload.then((data) => {
