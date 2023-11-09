@@ -41,7 +41,20 @@ export async function loadS3IntoPinecone(fileKey: string) {
   const documents = await Promise.all(pages.map(prepareDocument));
 
   // 3. vectorise and embed individual documents
-  const vectors = await Promise.all(documents.flat().map(embedDocument));
+  // const vectors = await Promise.all(documents.flat().map(embedDocument));
+  const delayBetweenAPICalls = 60000; // 60 seconds to stay within the rate limit
+  const flattenedDocuments = documents.flat();
+
+  console.log("Number of documents:", flattenedDocuments.length);
+
+  const vectors = [];
+  for (const doc of flattenedDocuments) {
+    const embeddedDoc = await embedDocument(doc);
+    vectors.push(embeddedDoc);
+    if (flattenedDocuments.length >= 3) {
+      await new Promise((resolve) => setTimeout(resolve, delayBetweenAPICalls));
+    }
+  }
 
   // 4. upload to pinecone
   const client = await getPineconeClient();
