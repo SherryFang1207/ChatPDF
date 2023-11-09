@@ -31,6 +31,7 @@ export async function POST(req: Request, res: Response) {
     //   { chat_id: chat_id[0].insertedId },
     //   { status: 200 }
     // );
+    console.log("Reach the end of loadS3IntoPinecone Function.");
     return NextResponse.json({ chat_id: 101 }, { status: 200 });
   } catch (error) {
     console.log(error);
