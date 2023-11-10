@@ -51,7 +51,7 @@ export async function loadS3IntoPinecone(fileKey: string) {
   );
   const vectors = [];
   for (const doc of flattenedDocuments) {
-    const embeddedDoc = await embedDocument(doc);
+    const embeddedDoc = await embedDocument(doc, fileKey);
     vectors.push(embeddedDoc);
     console.log("---Successfully embedded one document!---");
     if (flattenedDocuments.length >= 3) {
@@ -67,7 +67,7 @@ export async function loadS3IntoPinecone(fileKey: string) {
 
   return documents[0];
 }
-async function embedDocument(doc: Document) {
+async function embedDocument(doc: Document, fileKey: string) {
   try {
     const embeddings = await getEmbeddings(doc.pageContent);
     const hash = md5(doc.pageContent);
@@ -77,6 +77,8 @@ async function embedDocument(doc: Document) {
       metadata: {
         text: doc.metadata.text,
         pageNumber: doc.metadata.pageNumber,
+        fileKeyIdentifier: convertToAscii(fileKey),
+        testing: "testingMetaData",
       },
     } as PineconeRecord;
   } catch (error) {
