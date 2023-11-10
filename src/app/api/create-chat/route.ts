@@ -16,19 +16,19 @@ export async function POST(req: Request, res: Response) {
     console.log(file_key, file_name);
     await loadS3IntoPinecone(file_key);
     // After loading pdf vectors onto Pinecone, create the chat for this pdf inside Neon db
-    // const chat_id = await db
-    //   .insert(chats)
-    //   .values({
-    //     fileKey: file_key,
-    //     pdfName: file_name,
-    //     pdfUrl: getS3Url(file_key),
-    //     userId,
-    //   })
-    //   .returning({ insertedId: chats.id });
+    const chat_id = await db
+      .insert(chats)
+      .values({
+        fileKey: file_key,
+        pdfName: file_name,
+        pdfUrl: getS3Url(file_key),
+        userId,
+      })
+      .returning({ insertedId: chats.id });
     console.log("Reach the end of loadS3IntoPinecone Function.");
     return NextResponse.json(
-      // { chat_id: chat_id[0].insertedId },
-      { chat_id: 101 },
+      { chat_id: chat_id[0].insertedId },
+      // { chat_id: 101 },
       { status: 200 }
     );
 

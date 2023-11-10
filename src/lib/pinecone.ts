@@ -63,9 +63,6 @@ export async function loadS3IntoPinecone(fileKey: string) {
   // 4. upload to pinecone
   const client = await getPineconeClient();
   const pineconeIndex = client.Index("chatpdf-ai-context-db");
-  // const namespace = pineconeIndex.namespace(convertToAscii(fileKey));
-  // console.log("inserting vectors into pinecone");
-  // await namespace.upsert(vectors);
   await pineconeIndex.upsert(vectors);
 
   return documents[0];
