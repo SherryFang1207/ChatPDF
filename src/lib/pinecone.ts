@@ -42,24 +42,20 @@ export async function loadS3IntoPinecone(fileKey: string) {
 
   // 3. vectorise and embed individual documents
   // const vectors = await Promise.all(documents.flat().map(embedDocument));
-  const delayBetweenAPICalls = 60000; // 60 seconds to stay within the rate limit
+  const delayBetweenAPICalls = 25000; // 60 seconds to stay within the rate limit
   const flattenedDocuments = documents.flat();
 
-  console.log("Number of documents:", flattenedDocuments.length);
-
-  // for (const doc of flattenedDocuments) {
-  //   // const embeddedDoc = await embedDocument(doc);
-  //   console.log("Embedding a document ... Should expect 1 min to finish.");
-  //   if (flattenedDocuments.length >= 3) {
-  //     await new Promise((resolve) => setTimeout(resolve, delayBetweenAPICalls));
-  //   }
-  // }
+  console.log(
+    "Number of documents passed to OpenAI Ada:",
+    flattenedDocuments.length
+  );
   const vectors = [];
   for (const doc of flattenedDocuments) {
     const embeddedDoc = await embedDocument(doc);
-    console.log("Embedding Finished: ", embeddedDoc);
     vectors.push(embeddedDoc);
+    console.log("---Successfully embedded one document!---");
     if (flattenedDocuments.length >= 3) {
+      console.log("Need to wait 25 sec to process next document...");
       await new Promise((resolve) => setTimeout(resolve, delayBetweenAPICalls));
     }
   }

@@ -3,27 +3,42 @@ import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Inbox, Loader2 } from "lucide-react";
 import { uploadToS3 } from "@/lib/s3";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
+// import { useMutation, UseMutationResult } from "react-query";
 import axios from "axios";
 // import toast from "react-hot-toast/headless";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
+interface MutationVariables {
+  file_key: string;
+  file_name: string;
+}
+
 const FileUpload = () => {
   const router = useRouter();
   const [uploading, setUploading] = useState(false);
-  const { mutate } = useMutation({
-    mutationFn: async ({
-      file_key,
-      file_name,
-    }: {
-      file_key: string;
-      file_name: string;
-    }) => {
-      const response = await axios.post("/api/create-chat", {
-        file_key,
-        file_name,
-      });
+  // const { mutate} = useMutation({
+  //   mutationFn: async ({
+  //     file_key,
+  //     file_name,
+  //   }: {
+  //     file_key: string;
+  //     file_name: string;
+  //   }) => {
+  //     const response = await axios.post("/api/create-chat", {
+  //       file_key,
+  //       file_name,
+  //     });
+  //     return response.data;
+  //   },
+  // });
+  const {
+    mutate,
+    status,
+  }: UseMutationResult<any, Error, MutationVariables, unknown> = useMutation({
+    mutationFn: async (variables: MutationVariables) => {
+      const response = await axios.post("/api/create-chat", variables);
       return response.data;
     },
   });
@@ -75,7 +90,7 @@ const FileUpload = () => {
       >
         <input {...getInputProps()} />
         {/* Stlying and Instruction */}
-        {uploading ? (
+        {uploading || status === "pending" ? (
           <>
             {/* loading state */}
             <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />

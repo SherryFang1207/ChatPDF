@@ -29,7 +29,7 @@ export default async function getEmbeddings(text: string): Promise<number[]> {
 
     // Extract the embedding from the response
     const embedding = response.data.data[0].embedding;
-    console.log("Embedding:", embedding);
+    // console.log("Embedding:", embedding);
     return embedding;
   } catch (error) {
     console.error("Error calling OpenAI createEmbedding API:", error);
