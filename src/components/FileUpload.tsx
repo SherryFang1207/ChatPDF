@@ -18,21 +18,7 @@ interface MutationVariables {
 const FileUpload = () => {
   const router = useRouter();
   const [uploading, setUploading] = useState(false);
-  // const { mutate} = useMutation({
-  //   mutationFn: async ({
-  //     file_key,
-  //     file_name,
-  //   }: {
-  //     file_key: string;
-  //     file_name: string;
-  //   }) => {
-  //     const response = await axios.post("/api/create-chat", {
-  //       file_key,
-  //       file_name,
-  //     });
-  //     return response.data;
-  //   },
-  // });
+
   const {
     mutate,
     status,
