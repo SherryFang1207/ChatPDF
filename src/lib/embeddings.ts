@@ -17,7 +17,7 @@ export async function getEmbeddings(text: string) {
     });
     const result = await response.json();
     if (!result.error) {
-      console.log(result);
+      // console.log(result);
       return result.data[0].embedding as number[];
     } else {
       throw new Error(result.error);
