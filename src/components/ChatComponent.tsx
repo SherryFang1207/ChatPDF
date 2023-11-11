@@ -15,15 +15,18 @@ const ChatComponent = (props: Props) => {
   return (
     <div className="relative max-h-screen overflow-scroll">
       {/* Chat Title Header Div */}
-      <div className="sticky top-0 inset-x-0 p-2 bg-slate-300 h-fit">
+      <div className="sticky top-0 inset-x-0 p-2 bg-white h-fit">
         <h3 className="text-xl font-bold">Chat</h3>
       </div>
       {/* Chat Message Window */}
-      <MessageList messages={messages} />
+      <div className="flex py-3">
+        <MessageList messages={messages} />
+      </div>
+
       {/* Submit new chat message window */}
       <form
         onSubmit={handleSubmit}
-        className="sticky bottom-0 inset-x-0 px-2 py-4 bg-green-100"
+        className="sticky bottom-0 inset-x-0 px-2 py-4 bg-white"
       >
         <div className="flex">
           <Input
