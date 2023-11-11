@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const lastMessage = messages[messages.length - 1];
     console.log("Last message is: ", lastMessage.content);
     const context = await getContext(lastMessage.content, fileKey);
-    console.log("current context: ", context);
+    // console.log("current context: ", context);
     // feed context of the last user message into openai role
     const prompt = {
       role: "system",

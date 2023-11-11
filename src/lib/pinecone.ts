@@ -99,11 +99,10 @@ async function prepareDocument(page: PDFPage) {
   const docs = await splitter.splitDocuments([
     new Document({
       pageContent,
+
       metadata: {
-        metadata: {
-          pageNumber: metadata.loc.pageNumber,
-          text: truncateStringByBytes(pageContent, 36000),
-        },
+        pageNumber: metadata.loc.pageNumber,
+        text: truncateStringByBytes(pageContent, 36000),
       },
     }),
   ]);

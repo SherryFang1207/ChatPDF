@@ -24,13 +24,13 @@ export async function getMatchesFromEmbedding(
       vector: embeddings,
       includeMetadata: true,
     });
-    console.log("Query Responses before filter: ", queryResponse);
+    // console.log("Query Responses before filter: ", queryResponse);
 
     // Filter the results based on the fileKeyIdentifier metadata
     const filteredResults = queryResponse.matches.filter((result) => {
       return result.metadata?.fileKeyIdentifier === fileKeyIdentifier;
     });
-    console.log("Filtered query based on fileKey: ", filteredResults);
+    // console.log("Filtered query based on fileKey: ", filteredResults);
     return filteredResults;
   } catch (error) {
     console.log("error querying embeddings", error);
@@ -51,7 +51,7 @@ export async function getContext(query: string, fileKey: string) {
   };
 
   let docs = qualifyingDocs.map((match) => {
-    console.log("metadata for this match is: ", match.metadata!.text);
+    // console.log("metadata for this match is: ", match.metadata!.text);
     return (match.metadata as Metadata).text;
   });
   // 5 vectors
