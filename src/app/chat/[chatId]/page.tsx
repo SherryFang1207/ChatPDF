@@ -6,6 +6,7 @@ import { auth } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
 import ChatSideBar from "@/components/ChatSideBar";
 import PDFViewer from "@/components/PDFViewer";
+import ChatComponent from "@/components/ChatComponent";
 
 type Props = {
   params: {
@@ -41,7 +42,7 @@ const ChatPage = async ({ params: { chatId } }: Props) => {
         </div>
         {/* chat component */}
         <div className="flex-[3] border-l-4 border-l-slate-200">
-          {/* chat Component */}
+          <ChatComponent />
         </div>
       </div>
     </div>
