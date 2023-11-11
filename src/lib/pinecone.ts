@@ -78,7 +78,6 @@ async function embedDocument(doc: Document, fileKey: string) {
         text: doc.metadata.text,
         pageNumber: doc.metadata.pageNumber,
         fileKeyIdentifier: convertToAscii(fileKey),
-        testing: "testingMetaData",
       },
     } as PineconeRecord;
   } catch (error) {

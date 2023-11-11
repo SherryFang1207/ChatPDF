@@ -5,35 +5,42 @@ import { useChat } from "ai/react";
 import { Button } from "./ui/button";
 import { Send } from "lucide-react";
 import MessageList from "./MessageList";
-import { useState } from "react";
 
-type Props = {};
+type Props = { chatId: number };
 
-const ChatComponent = (props: Props) => {
+const ChatComponent = ({ chatId }: Props) => {
   const { input, handleInputChange, handleSubmit, messages } = useChat({
     api: "/api/chat",
+    body: {
+      chatId,
+    },
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsLoading(true);
-    await handleSubmit(event);
-    setIsLoading(false);
-  };
+  React.useEffect(() => {
+    const messageContainer = document.getElementById("message-container");
+    if (messageContainer) {
+      messageContainer.scrollTo({
+        top: messageContainer.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
   return (
-    <div className="relative max-h-screen overflow-scroll">
+    <div
+      className="relative max-h-screen overflow-scroll"
+      id="message-container"
+    >
       {/* Chat Title Header Div */}
       <div className="sticky top-0 inset-x-0 p-2 bg-white h-fit">
         <h3 className="text-xl font-bold">Chat</h3>
       </div>
       {/* Chat Message Window */}
       <div className="flex py-3">
-        {isLoading ? <p>Loading...</p> : <MessageList messages={messages} />}
+        <MessageList messages={messages} />
       </div>
 
       {/* Submit new chat message window */}
       <form
-        onSubmit={handleFormSubmit}
+        onSubmit={handleSubmit}
         className="sticky bottom-0 inset-x-0 px-2 py-4 bg-white"
       >
         <div className="flex">
