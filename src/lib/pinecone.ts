@@ -6,8 +6,8 @@ import {
   RecursiveCharacterTextSplitter,
 } from "@pinecone-database/doc-splitter";
 import md5 from "md5";
-import getEmbeddings from "./tryEmbed";
-// import { getEmbeddings } from "./embeddings";
+// import getEmbeddings from "./tryEmbed";
+import { getEmbeddings } from "./embeddings";
 import { convertToAscii } from "./utils";
 export const getPineconeClient = () => {
   return new Pinecone({
@@ -43,7 +43,7 @@ export async function loadS3IntoPinecone(fileKey: string) {
 
   // 3. vectorise and embed individual documents
   // const vectors = await Promise.all(documents.flat().map(embedDocument));
-  const delayBetweenAPICalls = 25000; // 60 seconds to stay within the rate limit
+  const delayBetweenAPICalls = 1000; // 1 second to stay within the rate limit
   const flattenedDocuments = documents.flat();
 
   console.log(
@@ -55,7 +55,7 @@ export async function loadS3IntoPinecone(fileKey: string) {
     const embeddedDoc = await embedDocument(doc, fileKey);
     vectors.push(embeddedDoc);
     console.log("---Successfully embedded one document!---");
-    if (flattenedDocuments.length >= 3) {
+    if (flattenedDocuments.length > 3) {
       console.log("Need to wait 25 sec to process next document...");
       await new Promise((resolve) => setTimeout(resolve, delayBetweenAPICalls));
     }
