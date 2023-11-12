@@ -69,7 +69,9 @@ const ChatSideBar = ({ chats, chatId, isPro }: Props) => {
         >
           Upgrade To Pro!
         </Button> */}
-        <SubscriptionButton isPro={isPro} />
+        <div className="mt-4">
+          <SubscriptionButton isPro={isPro} />
+        </div>
       </div>
     </div>
   );
