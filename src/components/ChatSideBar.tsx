@@ -1,9 +1,11 @@
+"use client";
 import { DrizzleChat } from "@/lib/db/schema";
 import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
 import { MessageCircle, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import axios from "axios";
 
 type Props = {
   chats: DrizzleChat[];
@@ -11,6 +13,18 @@ type Props = {
 };
 
 const ChatSideBar = ({ chats, chatId }: Props) => {
+  const [loading, setLoading] = React.useState(false);
+  const handleSubscription = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("/api/stripe");
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="w-full h-screen p-4 text-gray-200 bg-gray-900">
       {/* ChatSide Bar Container */}
@@ -44,8 +58,15 @@ const ChatSideBar = ({ chats, chatId }: Props) => {
         <div className="flex items-center gap-2 text-sm text-slate-500 flex-wrap">
           <Link href="/">Home</Link>
           <Link href="/">Source</Link>
-          {/* TODO: Stripe Button */}
         </div>
+        {/* TODO: Stripe Button */}
+        <Button
+          className="mt-2 text-white bg-slate-700"
+          disabled={loading}
+          onClick={handleSubscription}
+        >
+          Upgrade To Pro!
+        </Button>
       </div>
     </div>
   );
